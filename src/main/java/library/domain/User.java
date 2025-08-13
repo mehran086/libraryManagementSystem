@@ -24,6 +24,12 @@ public abstract class User {
         this.id = generateId();
         this.name = name;
     }
+
+    public User(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     private static String generateId() {
         return "USR-" + (counter++);
     }

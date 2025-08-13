@@ -17,6 +17,14 @@ public class Book {
         this.totalCopies = totalCopies;
         this.availableCopies = totalCopies;
     }
+    public Book(String id, String title, String author, int totalCopies) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.totalCopies = totalCopies;
+        this.availableCopies = totalCopies;
+    }
+
     private static String generateId() {
         return "BK-" + (counter++);
     }
