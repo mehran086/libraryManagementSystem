@@ -13,7 +13,7 @@ import java.util.*;
 
 public class LibraryService {
     private final BookRepository bookrepo;
-    private final UserRepository userRepo;
+    public final UserRepository userRepo;
     private final Path booksFile;
     private final Path usersFile;
     private final Path borrowedFile;
