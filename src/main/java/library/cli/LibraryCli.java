@@ -8,6 +8,7 @@ import library.repository.BookRepository;
 import library.repository.UserRepository;
 import library.service.LibraryService;
 import library.exceptions.*;
+import library.util.ReportUtil;
 
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -117,7 +118,13 @@ public class LibraryCli {
             case "list":
                 library.listAllBooks().forEach(System.out::println);
                 break;
-
+            case "list-users":
+                requireLogin();
+                if (!(currentUser instanceof Librarian)) {
+                    throw new PermissionDeniedException("Only librarians can see users.");
+                }
+                library.getAllUsers().forEach(System.out::println);
+                break;
             case "search":
                 if (parts.length < 2) {
                     System.out.println("Usage: search <title-fragment>");
@@ -150,6 +157,14 @@ public class LibraryCli {
                 requireLogin();
                 library.printBooksOfStudent(currentUser.getId());
                 break;
+            case "admin-report":
+                requireLogin();
+                if (!(currentUser instanceof Librarian)) {
+                    throw new PermissionDeniedException("Only librarians can generate reports.");
+                }
+                System.out.println(ReportUtil.generateReport(library));
+                break;
+
 
             default:
                 System.out.println("Unknown command. Type 'help' for a list of commands.");
@@ -174,18 +189,20 @@ public class LibraryCli {
         System.out.println("  add-user <type>|<id>|<name>        - Add a new user (librarians only)");
         System.out.println("  add-book <title>|<author>|<copies> - Add a new book (librarians only)");
         System.out.println("  list                               - List all books");
+        System.out.println("  list-users                         - List all users(librarians only)");
         System.out.println("  search <title-fragment>            - Search books by title");
         System.out.println("  borrow <bookId>                    - Borrow a book");
         System.out.println("  return <bookId>                    - Return a borrowed book");
         System.out.println("  report                             - Show books you have borrowed");
+        System.out.println("  admin-report                       - Generate admin reflection report (librarians only)");
         System.out.println("  help                               - Show this help message");
         System.out.println("  exit                               - Exit the program");
     }
 
     public static void main(String[] args) {
-        Path booksFile = Path.of("Books.csv");
-        Path usersFile = Path.of("Users.csv");
-        Path borrowedFile = Path.of("BorrowedBooks.csv");
+        Path booksFile = Path.of("src/main/resources/data/books.csv");
+        Path usersFile = Path.of("src/main/resources/data/users.csv");
+        Path borrowedFile = Path.of("src/main/resources/data/BorrowedBooks.csv");
 
         BookRepository bookRepo = new BookRepository();
         UserRepository userRepo = new UserRepository();

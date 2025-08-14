@@ -58,6 +58,9 @@ public class LibraryService {
     public List<Book> listAllBooks() {
         return bookrepo.findAll();
     }
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
 
     public List<Book> searchByName(String bookname) {
         String searchTerm = bookname.toLowerCase();
@@ -134,4 +137,6 @@ public class LibraryService {
                 .map(Optional::get)
                 .forEach(System.out::println);
     }
+
+
 }
