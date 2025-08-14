@@ -105,6 +105,8 @@ public class LibraryService {
         // save to files
         FileUtil.saveBooks(bookrepo.findAll(), booksFile);
         FileUtil.saveBorrowedBooks(trackBooks, borrowedFile);
+        userRepo.save(user);
+        FileUtil.saveUsers(userRepo.findAll(), usersFile);
     }
 
     public synchronized void returnBook(String userId, String bookId) {

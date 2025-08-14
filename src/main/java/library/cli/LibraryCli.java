@@ -6,6 +6,7 @@ import library.domain.Student;
 import library.domain.User;
 import library.repository.BookRepository;
 import library.repository.UserRepository;
+import library.service.BackupService;
 import library.service.LibraryService;
 import library.exceptions.*;
 import library.util.ReportUtil;
@@ -16,11 +17,14 @@ import java.util.Scanner;
 public class LibraryCli {
     private final LibraryService library;
     private final UserRepository userRepo;
+    private final BackupService backupService;
     private User currentUser;
 
-    public LibraryCli(LibraryService library, UserRepository userRepo) {
+    public LibraryCli(LibraryService library, UserRepository userRepo , BackupService backupService) {
         this.library = library;
         this.userRepo = userRepo;
+        this.backupService= backupService;
+        backupService.start();
     }
 
     public void start() {
@@ -34,6 +38,8 @@ public class LibraryCli {
 
             if (line.equalsIgnoreCase("exit")) {
                 System.out.println("Goodbye!");
+                backupService.stop();
+                System.exit(0);
                 break;
             }
 
@@ -210,7 +216,8 @@ public class LibraryCli {
         UserRepository userRepo = new UserRepository();
 
         LibraryService library = new LibraryService(bookRepo, userRepo, booksFile, usersFile, borrowedFile);
-
+        BackupService backupService = new BackupService(library);
+//        backupService.start();
         // Bootstrap default librarian if no users exist
         if (userRepo.findAll().isEmpty()) {
             User defaultLib = new Librarian("admin", "Default Librarian");
@@ -219,6 +226,6 @@ public class LibraryCli {
             System.out.println("   Login with: login admin");
         }
 
-        new LibraryCli(library, userRepo).start();
+        new LibraryCli(library, userRepo,backupService).start();
     }
 }

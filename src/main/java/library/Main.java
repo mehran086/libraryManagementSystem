@@ -22,7 +22,7 @@ public class Main {
         UserRepository userRepo = new UserRepository();
         LibraryService library = new LibraryService(bookRepo, userRepo, booksFile, usersFile, borrowedFile);
         BackupService backupService = new BackupService(library);
-        backupService.start();
+//        backupService.start();
 
         // Bootstrap default librarian if no users exist
         if (userRepo.findAll().isEmpty()) {
@@ -32,7 +32,7 @@ public class Main {
             System.out.println("   Login with: login admin");
         }
 
-        new LibraryCli(library, userRepo).start();
+        new LibraryCli(library, userRepo,backupService).start();
     }
 }
 
