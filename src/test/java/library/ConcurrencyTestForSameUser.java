@@ -16,7 +16,7 @@ import java.util.concurrent.*;
 
 // so as  of now when running it again , change the id of book.
 
-public class ConcurrencyTest {
+public class ConcurrencyTestForSameUser {
 
     public static void main(String[] args) throws InterruptedException {
         // Setup empty repos
