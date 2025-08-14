@@ -112,6 +112,8 @@ public class LibraryCli {
                 int copies = Integer.parseInt(bookParts[2]);
                 String bookId = "BK-" + System.currentTimeMillis();
                 library.addBook(new Book(bookId, title, author, copies), currentUser);
+//                Book book =new Book(title, author, copies);
+//                library.addBook(book, currentUser);
                 System.out.println("✅ Book added with ID: " + bookId);
                 break;
 

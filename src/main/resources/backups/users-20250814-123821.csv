@@ -1,0 +1,6 @@
+id,name,type
+STU-1,John Doe,Student
+STU001,Mehran,Student
+STU002,Sufiyan,Student
+LIB-1,Jane Smith,Librarian
+admin,Default Librarian,Librarian

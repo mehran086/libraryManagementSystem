@@ -7,6 +7,7 @@ import library.domain.Student;
 import library.domain.User;
 import library.repository.BookRepository;
 import library.repository.UserRepository;
+import library.service.BackupService;
 import library.service.LibraryService;
 
 import java.nio.file.Path;
@@ -19,8 +20,9 @@ public class Main {
 
         BookRepository bookRepo = new BookRepository();
         UserRepository userRepo = new UserRepository();
-
         LibraryService library = new LibraryService(bookRepo, userRepo, booksFile, usersFile, borrowedFile);
+        BackupService backupService = new BackupService(library);
+        backupService.start();
 
         // Bootstrap default librarian if no users exist
         if (userRepo.findAll().isEmpty()) {
